@@ -11,8 +11,11 @@ struct Person {
     age: usize,
 }
 
+<<<<<<< HEAD
 // I AM NOT DONE
 
+=======
+>>>>>>> 2d110a4
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
 // 2. Split the given string on the commas present in it
@@ -26,6 +29,19 @@ struct Person {
 impl FromStr for Person {
     type Err = Box<dyn error::Error>;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        let parts = s.splitn(2, ',').collect::<Vec<&str>>();
+        match &parts[..] {
+            [name, age] if !name.is_empty() => {
+                match age.parse().map(|age| Person {
+                    name: name.to_string(),
+                    age,
+                }) {
+                    Ok(p) => Ok(p),
+                    _ => Err("".to_owned()),
+                }
+            }
+            _ => Err("".to_owned()),
+        }
     }
 }
 
